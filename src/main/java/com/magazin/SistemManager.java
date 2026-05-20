@@ -25,6 +25,16 @@ public class SistemManager {
         this.istoricVanzari.clear();
         this.utilizatori.add(new Administrator("admin@email.com", "admin"));
     }
+    public void adaugaProdus(Produs p) {
+        if (p != null)
+            this.produse.add(p);
+    }
+
+    public void anuleazaVanzare(int idProdus, String emailVanzator) {
+        produse.removeIf(p -> p.getId() == idProdus && p.getVanzatorEmail().equals(emailVanzator));
+        oferteActive.removeIf(o -> o.getIdProdus() == idProdus);
+        System.out.println("Vanzarea a fost anulata.");
+    }
 
     // Modifică temporar metoda login în SistemManager.java
     public Utilizator login(String email, String parola) {
