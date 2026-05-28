@@ -2,11 +2,13 @@ package com.magazin;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SistemManager {
     private static SistemManager instanta;
     private List<Utilizator> utilizatori;
     private List<String> istoricVanzari;
+    private List<Oferta> oferteActive = new ArrayList<>();
 
     private SistemManager() {
         this.utilizatori = new ArrayList<>();
@@ -112,4 +114,38 @@ public class SistemManager {
             }
         }
     }
+    public boolean proceseazaOferta(int idProdus, String emailCumparator, double pretPropus) {
+       for (Produs p : produse) {
+           if (p.getId() == idProdus) {
+               if (p instanceof ProdusNegociabil) {
+                   ProdusNegociabil pn = (ProdusNegociabil) p;
+                   if (pretPropus >= pn.getPretMinim()) {
+                       oferteActive.add(new Oferta(idProdus, emailCumparator, pretPropus));
+                       System.out.println("Oferta a fost trimisa vanzatorului.");
+                       return true;
+                   } else {
+                       System.out.println("Oferta refuzata automat (sub pretul minim setat de vanzator).");
+                       return false;
+                   }
+               } else {
+                   System.out.println("Acest produs are pret fix si nu accepta oferte.");
+                   return false;
+               }
+           }
+       }
+       System.out.println("Produsul nu a fost gasit.");
+       return false;
+   }
+
+   public void respingeOferta(Oferta o) {
+       oferteActive.remove(o);
+       System.out.println("Oferta a fost respinsa/anulata.");
+   }
+
+   public List<Oferta> getOfertePentruVanzator(String emailVanzator) {
+       return oferteActive.stream()
+               .filter(o -> produse.stream()
+                       .anyMatch(p -> p.getId() == o.getIdProdus() && p.getVanzatorEmail().equals(emailVanzator)))
+               .collect(Collectors.toList());
+   }
 }
