@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "idProdus": 2,
+    "emailCumparator": "c1@email.com",
+    "pretPropus": 700.0,
+    "aprobata": false
+  }
+]

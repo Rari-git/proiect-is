@@ -27,6 +27,7 @@ public class BuyerPanel extends JPanel {
             }
         };
         productsTable = new JTable(tableModel);
+        productsTable.removeColumn(productsTable.getColumnModel().getColumn(0));
         add(new JScrollPane(productsTable), BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();

@@ -25,7 +25,6 @@ public class SellerPanel extends JPanel {
 
         JTabbedPane tabbedPane = new JTabbedPane();
 
-        // Tab Produse
         JPanel productsTab = new JPanel(new BorderLayout());
         String[] pCols = { "ID", "Nume", "Tip", "Pret Afisat", "Descriere" };
         productsTableModel = new DefaultTableModel(pCols, 0) {
@@ -45,15 +44,15 @@ public class SellerPanel extends JPanel {
         pBtnPanel.add(cancelBtn);
         productsTab.add(pBtnPanel, BorderLayout.SOUTH);
 
-        // Tab Oferte
         JPanel offersTab = new JPanel(new BorderLayout());
-        String[] oCols = { "ID Produs", "Cumparator", "Pret Propus" };
+        String[] oCols = { "ID Produs", "Nume Produs", "Cumparator", "Pret Propus" };
         offersTableModel = new DefaultTableModel(oCols, 0) {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
         offersTable = new JTable(offersTableModel);
+        offersTable.removeColumn(offersTable.getColumnModel().getColumn(0));
         offersTab.add(new JScrollPane(offersTable), BorderLayout.CENTER);
 
         JPanel oBtnPanel = new JPanel();
@@ -71,12 +70,10 @@ public class SellerPanel extends JPanel {
         JButton logoutBtn = new JButton("Logout");
         add(logoutBtn, BorderLayout.SOUTH);
 
-        // Actiuni Produse
         addFixBtn.addActionListener(e -> addProdusFix());
         addNegBtn.addActionListener(e -> addProdusNegociabil());
         cancelBtn.addActionListener(e -> anuleazaVanzare());
 
-        // Actiuni Oferte
         approveBtn.addActionListener(e -> approveOffer());
         rejectBtn.addActionListener(e -> rejectOffer());
 
@@ -104,7 +101,14 @@ public class SellerPanel extends JPanel {
 
         offersTableModel.setRowCount(0);
         for (Oferta o : manager.getOfertePentruVanzator(currentSeller.getEmail())) {
-            offersTableModel.addRow(new Object[] { o.getIdProdus(), o.getEmailCumparator(), o.getPretPropus() });
+            String numeProd = "";
+            for (Produs p : manager.getProduse()) {
+                if (p.getId() == o.getIdProdus()) {
+                    numeProd = p.getNume();
+                    break;
+                }
+            }
+            offersTableModel.addRow(new Object[]{o.getIdProdus(), numeProd, o.getEmailCumparator(), o.getPretPropus()});
         }
     }
 
@@ -167,7 +171,7 @@ public class SellerPanel extends JPanel {
         int row = offersTable.getSelectedRow();
         if (row != -1) {
             int idProd = (int) offersTableModel.getValueAt(row, 0);
-            String cump = (String) offersTableModel.getValueAt(row, 1);
+            String cump = (String) offersTableModel.getValueAt(row, 2);
             List<Oferta> oferte = manager.getOfertePentruVanzator(currentSeller.getEmail());
             for (Oferta o : oferte) {
                 if (o.getIdProdus() == idProd && o.getEmailCumparator().equals(cump)) {
