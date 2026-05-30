@@ -1,1 +1,1 @@
-[{"email":"admin@email.com","parola":"admin"},{"email":"v1@email.com","parola":"v1","contAprobat":true},{"email":"v2@email.com","parola":"v2","contAprobat":false},{"email":"c1@email.com","parola":"c1"}]
+[{"email":"admin@email.com","parola":"admin"},{"email":"c1@gmail.com","parola":"1234"},{"email":"c2@gmail.com","parola":"1234"},{"email":"v1@gmail.com","parola":"1234","contAprobat":true},{"email":"v2@gmail.com","parola":"1234","contAprobat":false}]
