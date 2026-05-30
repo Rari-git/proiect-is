@@ -24,7 +24,6 @@ public abstract class Produs {
         this.vanzatorEmail = vanzatorEmail;
     }
 
-    // Constructor gol necesar pentru deserializarea JSON
     public Produs() {
     }
 
@@ -32,7 +31,6 @@ public abstract class Produs {
         return id;
     }
 
-    // Setter pentru id necesar pentru ca Jackson să poată restaura ID-ul salvat
     public void setId(int id) {
         this.id = id;
     }

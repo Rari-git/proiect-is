@@ -34,7 +34,6 @@ public class SistemManager {
         Produs.setIdCounter(0);
     }
 
-    // Modifică temporar metoda login în SistemManager.java
     public Utilizator login(String email, String parola) {
         for (Utilizator u : utilizatori) {
             if (u.getEmail().equals(email) && u.getParola().equals(parola)) {
@@ -152,9 +151,9 @@ public class SistemManager {
 
     private void finalizeazaVanzare(Produs p, String cumparator, double pret) {
         String record = "Produs: " + p.getNume() + " | Cumparator: " + cumparator + " | Pret: " + pret;
-        istoricVanzari.add(record); // Cerinta g
-        oferteActive.removeIf(o -> o.getIdProdus() == p.getId()); // Sterge ofertele (Cerinta g)
-        produse.remove(p); // Șterge din sistem (cerința g)
+        istoricVanzari.add(record);
+        oferteActive.removeIf(o -> o.getIdProdus() == p.getId());
+        produse.remove(p);
         System.out.println("Tranzactie finalizata!");
     }
 
@@ -208,7 +207,6 @@ public class SistemManager {
     public void setUtilizatori(List<Utilizator> utilizatori) {
         if (utilizatori != null) {
             this.utilizatori = utilizatori;
-            // Ne asigurăm că administratorul default există mereu dacă lista e nouă
             if (utilizatori.stream().noneMatch(u -> u.getEmail().equals("admin@email.com"))) {
                 utilizatori.add(new Administrator("admin@email.com", "admin"));
             }

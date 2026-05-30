@@ -13,7 +13,6 @@ public abstract class Utilizator {
     private String email;
     private String parola;
 
-    // Constructor gol necesar pentru deserializarea JSON
     public Utilizator() {
     }
 
